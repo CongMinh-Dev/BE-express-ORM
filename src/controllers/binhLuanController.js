@@ -46,8 +46,8 @@ const saveComment = async (req, res) => {
         ngay_binh_luan:ngay_binh_luan
     }
 
-    await model.binh_luan.create(newData);
-    response(res, newData, "thành công", 200)
+    await model.binh_luan.create(infoComment);
+    response(res, "", "thành công", 200)
 }
 
 

@@ -5,7 +5,6 @@ import { response } from "../config/response.js";
 import bcrypt from "bcrypt"
 import { createToken, decodeToken } from "../config/jwt.js";
 import compress_images from "compress-images"
-import axios from "axios";
 
 const model = initModels(sequelize)
 
@@ -136,8 +135,10 @@ const deleteImg = async (req, res) => {
 
 }
 
-// thêm một ảnh
+//----------- thêm một ảnh
 import cloudinary from "cloudinary"
+import fs from "fs"
+
 // Cấu hình Cloudinary
 cloudinary.config({
     cloud_name: 'dgqxl6kjl',
@@ -147,41 +148,56 @@ cloudinary.config({
 const addImg = async (req, res) => {
     // Lấy file từ request
     const file = req.file;
-    // Tải file lên Cloudinary
-    const result = await cloudinary.v2.uploader
-    .upload(file.path, {
-      asset_folder: 'node 41',
-      resource_type: 'image'})
-    // xin ra url   
-    console.log(result.secure_url)
+    let { mo_ta } = req.body
 
+    const newName = file.filename;
+    // giảm dung lượng file
+    let input = `public/img/${file.filename}`
+    let output = `public/imgLow/`
+    compress_images(input, output,
+        {
+            compress_force: false, statistic: true, autoupdate: true
+        }, false,
+        { jpg: { engine: "mozjpeg", command: ["-quality", "20"] } },
+        { png: { engine: "pngquant", command: ["--quality=20-50", "-o"] } },
+        { svg: { engine: "svgo", command: "--multipass" } },
+        { gif: { engine: "gifsicle", command: ["--colors", "64", "--use-col=web"] } },
 
-    // axios({
-    //     url: "https://api.cloudinary.com/v1_1/dgqxl6kjl/image/upload",
-    //     method: "POST",
-    //     data: formData
-    // })
-    //     .then((res) => {
-    //         console.log("thanh cong");
-    //     })
-    //     .catch((err) => {
-    //         console.log("that bai");
-    //     });
+        function (err, completed, statistic) {
+            if (completed) {
+                // đã chuyển thành công thì mới xóa file gốc
+                fs.unlink(`public/img/${file.filename}`, (err) => {
+                    err && console.log(err)
+                })
+                // Tải file lên Cloudinary
+                cloudinary.v2.uploader
+                    .upload(statistic.path_out_new, {
+                        asset_folder: 'node 41',
+                        resource_type: 'image',
+                        public_id: newName, //id trên clound
+                        display_name: file.originalname // tên hiển thị trên cloud, k có là nó tự random
+                    })
+                    .then((res) => {
+                        // up lên thành công thì xóa file low
+                        fs.unlink(`public/imgLow/${file.filename}`, (err) => { })
+                        let { token } = req.headers
+                        let { data } = decodeToken(token)
+                        let img = {
+                            ten_hinh: file.originalname,
+                            duong_dan: res.secure_url,
+                            mo_ta: mo_ta,
+                            nguoi_dung_id: data.nguoi_dung_id
+                        }
+                        model.hinh_anh.create(img)
 
+                    })
+            }
+        }
+    )
     response(res, "", "thành công", 200)
-
-
-    // compress_images(INPUT_path_to_your_images, OUTPUT_path,
-    //     {
-    //         compress_force: false, statistic: true, autoupdate: true
-    //     }, false,
-    //     { jpg: { engine: "mozjpeg", command: ["-quality", "60"] } },
-    //     { png: { engine: "pngquant", command: ["--quality=20-50", "-o"] } },
-    //     { svg: { engine: "svgo", command: "--multipass" } },
-    //     { gif: { engine: "gifsicle", command: ["--colors", "64", "--use-col=web"] } })
-
-
 }
+
+
 
 
 export {
@@ -192,5 +208,5 @@ export {
     getCreatedImg,
     getSavedImg,
     deleteImg,
-    addImg
+    addImg,
 }

@@ -72,16 +72,118 @@ const dangNhap = async (req, res) => {
 
 // get thông tin user
 const getUser = async (req, res) => {
-   let {token}= req.headers
-   let {data}= decodeToken(token)
-   let newData= await model.nguoi_dung.findByPk(data.nguoi_dung_id)
-   response(res, newData, "thành công", 200)
+    let { token } = req.headers
+    let { data } = decodeToken(token)
+    let newData = await model.nguoi_dung.findByPk(data.nguoi_dung_id)
+    response(res, newData, "thành công", 200)
 }
 
+//----------- update user
+import cloudinary from "cloudinary"
+import fs from "fs"
+import compress_images from "compress-images"
+
+// Cấu hình Cloudinary
+cloudinary.config({
+    cloud_name: 'dgqxl6kjl',
+    api_key: '235221651969883',
+    api_secret: 'biFICi47-VNwBm0O8GGoXEOXyaQ'
+});
+const updateUser = async (req, res) => {
+    // Lấy file từ request
+    const file = req.file;
+    let { email, mat_khau, ho_ten, tuoi } = req.body
+    let { token } = req.headers
+    let { data } = decodeToken(token)
+
+    let arrEmail = await model.nguoi_dung.findAll()
+    let arrEmailFilter = arrEmail.filter((item) => {
+        return item.dataValues.nguoi_dung_id != data.nguoi_dung_id
+    }
+    )
+
+    let index = arrEmailFilter.findIndex((item) => {
+        return item.dataValues.email == email
+    })
+    // xử lý email trùng
+    if (index == -1) {
+
+        let statistic = ""
+
+        if (file) {
+            // giảm dung lượng file
+            let input = `public/img/${file.filename}`
+            let output = `public/imgLow/`
+            compress_images(input, output,
+                {
+                    compress_force: false, statistic: true, autoupdate: true
+                }, false,
+                { jpg: { engine: "mozjpeg", command: ["-quality", "20"] } },
+                { png: { engine: "pngquant", command: ["--quality=20-50", "-o"] } },
+                { svg: { engine: "svgo", command: "--multipass" } },
+                { gif: { engine: "gifsicle", command: ["--colors", "64", "--use-col=web"] } },
+
+                function (err, completed, statisticClone) {
+                    if (completed) {
+                        // đã chuyển thành công thì mới xóa file gốc
+                        fs.unlink(`public/img/${file.filename}`, (err) => {
+                            err && console.log(err)
+                        })
+                        statistic = statisticClone
+                        // Tải file lên Cloudinary
+                        const newName = file.filename;
+                        cloudinary.v2.uploader
+                            .upload(statistic.path_out_new, {
+                                asset_folder: 'node 41',
+                                resource_type: 'image',
+                                public_id: newName, //id trên clound
+                                display_name: file.originalname // tên hiển thị trên cloud, k có là nó tự random
+                            })
+                            .then((result) => {
+                                // up lên thành công thì xóa file low
+                                fs.unlink(`public/imgLow/${file.filename}`, (err) => { })
+                                let user = {
+                                    email: email,
+                                    mat_khau: bcrypt.hashSync(mat_khau, 10),
+                                    ho_ten, ho_ten,
+                                    tuoi: tuoi,
+                                    anh_dai_dien: result.secure_url,
+
+                                }
+                                model.nguoi_dung.update(user, {
+                                    where: { nguoi_dung_id: data.nguoi_dung_id }
+                                })
+                                response(res, "", "thành công", 200)
+
+                            })
+                    }
+                }
+            )
+        } else {
+            let user = {
+                email: email,
+                mat_khau: bcrypt.hashSync(mat_khau, 10),
+                ho_ten, ho_ten,
+                tuoi: tuoi,
+            }
+            model.nguoi_dung.update(user, {
+                where: { nguoi_dung_id: data.nguoi_dung_id }
+            })
+            response(res, "", "thành công", 200)
+        }
+
+    } else {
+        file&&fs.unlink(`public/img/${file.filename}`, (err) => { })
+        response(res, "", "email đã được đăng ký", 400)
+
+    }
+
+}
 
 
 export {
     dangKy,
     dangNhap,
-    getUser
+    getUser,
+    updateUser
 }

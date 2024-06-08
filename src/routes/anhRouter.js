@@ -72,9 +72,18 @@ anhRouter.delete("/delete-img/:imgId",
     },
     deleteImg)
 
+// thêm ảnh
+import multer, { diskStorage } from "multer";
+let uploadImg = multer({
+    storage: diskStorage({
+        destination: 'public/img/',
+        filename: (req, file, callBack) => {
+            let mSeceond = new Date().getTime()
+            callBack(null, mSeceond + "_" + file.originalname)
+        }
 
-import multer from "multer";
-let uploadImg = multer({ dest: '.public/img/' })
+    })
+})
 anhRouter.post("/add-img",
     uploadImg.single("file"),
     (req, res, next) => {
@@ -89,6 +98,9 @@ anhRouter.post("/add-img",
         res.status(401).send(err.name)
     },
     addImg)
+
+
+
 
 
 

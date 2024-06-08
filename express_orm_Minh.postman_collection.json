@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "e0cb6cf0-620d-4346-828e-3d80aa419ad4",
+		"name": "express_orm_Minh",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34311369"
+	},
+	"item": [
+		{
+			"name": "nguoi_dung",
+			"item": [
+				{
+					"name": "dang_ky",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "       {\r\n        \"email\":\"minh2@gmail.com\",\r\n        \"mat_khau\": \"1234\",\r\n        \"ho_ten\":\"minh2\",\r\n        \"tuoi\":30\r\n       }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/dang-ky",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"dang-ky"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dang_nhap",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"email\":\"minh@gmail.com\",\r\n        \"mat_khau\": \"1234\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/dang-nhap",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"dang-nhap"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc2NjI2NDQsImV4cCI6MTcxODA5NDY0NH0.bVchjPzPvmg4k_GooX3PNAo5ZMOKCKRk5QgPwaKumfI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/get-user",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"get-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc2NjI2NDQsImV4cCI6MTcxODA5NDY0NH0.bVchjPzPvmg4k_GooX3PNAo5ZMOKCKRk5QgPwaKumfI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avata",
+									"type": "file",
+									"src": "/E:/giam-dung-luong-anh.jpg"
+								},
+								{
+									"key": "email",
+									"value": "minh@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "mat_khau",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "ho_ten",
+									"value": "minh",
+									"type": "text"
+								},
+								{
+									"key": "tuoi",
+									"value": "34",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{domain}}/update-user",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"update-user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "hinh_anh",
+			"item": [
+				{
+					"name": "get all img",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/get-all-img",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"get-all-img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find img",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "img_name",
+								"value": "ong",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/find-img",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"find-img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get info img",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/info-img/2",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"info-img",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "is save",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc1ODA0OTgsImV4cCI6MTcxODAxMjQ5OH0.0vQpwaKQYboj35CWSfOTxiw5V2ZhRr41SFYy6ubDee0",
+								"type": "text"
+							},
+							{
+								"key": "id_img",
+								"value": "2",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/is-save",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"is-save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get created img",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc2NjI2NDQsImV4cCI6MTcxODA5NDY0NH0.bVchjPzPvmg4k_GooX3PNAo5ZMOKCKRk5QgPwaKumfI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/get-created-img",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"get-created-img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get saved img",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc2NjI2NDQsImV4cCI6MTcxODA5NDY0NH0.bVchjPzPvmg4k_GooX3PNAo5ZMOKCKRk5QgPwaKumfI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/get-saved-img",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"get-saved-img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete img",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc2NjI2NDQsImV4cCI6MTcxODA5NDY0NH0.bVchjPzPvmg4k_GooX3PNAo5ZMOKCKRk5QgPwaKumfI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/delete-img/6",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"delete-img",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add img",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc2NjI2NDQsImV4cCI6MTcxODA5NDY0NH0.bVchjPzPvmg4k_GooX3PNAo5ZMOKCKRk5QgPwaKumfI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/E:/giam-dung-luong-anh.jpg"
+								},
+								{
+									"key": "mo_ta",
+									"value": "toi la aiaaaaaaaaaaaadaâtiasdfasdfadfdfasdfasfasfdsdfs",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{domain}}/add-img",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"add-img"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Binh luan",
+			"item": [
+				{
+					"name": "get comments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc1ODA0OTgsImV4cCI6MTcxODAxMjQ5OH0.0vQpwaKQYboj35CWSfOTxiw5V2ZhRr41SFYy6ubDee0",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/get-comments/1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"get-comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save comment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjZ9LCJpYXQiOjE3MTc2NjI2NDQsImV4cCI6MTcxODA5NDY0NH0.bVchjPzPvmg4k_GooX3PNAo5ZMOKCKRk5QgPwaKumfI",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"hinh_id\":\"1\",\r\n        \"noi_dung\":\"toi la ai\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/save-comment",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"save-comment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "domain",
+			"value": "localhost:8080",
+			"type": "string"
+		}
+	]
+}
