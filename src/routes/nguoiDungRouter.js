@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { dangKy, dangNhap, getUser, updateUser } from '../controllers/nguoiDungController.js';
+import { dangKy, dangNhap, getUser, taoToken, updateUser } from '../controllers/nguoiDungController.js';
 
 const nguoiDungRouter = express.Router()
 
@@ -20,7 +20,7 @@ nguoiDungRouter.get("/get-user",
         console.log(err)
         res.status(401).send(err.name)
     },
- getUser)
+    getUser)
 
 // update User
 import multer, { diskStorage } from "multer";
@@ -50,6 +50,8 @@ nguoiDungRouter.put("/update-user",
     },
     updateUser)
 
+
+nguoiDungRouter.post("/taoToken", taoToken)
 
 
 

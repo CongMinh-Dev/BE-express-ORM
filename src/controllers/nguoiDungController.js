@@ -2,7 +2,7 @@ import initModels from "../models/init-models.js";
 import sequelize from "../models/connect.js";
 import { response } from "../config/response.js";
 import bcrypt from "bcrypt"
-import { checkToken, checkTokenRef, createToken, createTokenRef, decodeToken } from "../config/jwt.js";
+import { checkToken, checkTokenRef, createToken, createTokenL, createTokenRef, decodeToken } from "../config/jwt.js";
 
 const model = initModels(sequelize)
 
@@ -173,7 +173,7 @@ const updateUser = async (req, res) => {
         }
 
     } else {
-        file&&fs.unlink(`public/img/${file.filename}`, (err) => { })
+        file && fs.unlink(`public/img/${file.filename}`, (err) => { })
         response(res, "", "email đã được đăng ký", 400)
 
     }
@@ -181,9 +181,17 @@ const updateUser = async (req, res) => {
 }
 
 
+// đăng nhập
+const taoToken = async (req, res) => {
+    let token = createTokenL();
+    response(res, token, "Đăng nhập thành công", 200);
+
+}
+
 export {
     dangKy,
     dangNhap,
     getUser,
-    updateUser
+    updateUser,
+    taoToken
 }

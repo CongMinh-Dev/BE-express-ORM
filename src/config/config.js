@@ -15,3 +15,5 @@ export default {
     db_dialect: process.env.DB_DIALECT
 
 }
+
+console.log(process.env.DB_DATABASE)
