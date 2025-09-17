@@ -6,11 +6,11 @@ export const createToken = (data) => {
     return jwt.sign({ data: data }, "BI_MAT", { expiresIn: "5d" })
 }
 
-// tạo token lop
+// gia hạn token trong lớp
 export const createTokenL = () => {
     return jwt.sign({
         "tenLop": "Bootcamp Sáng 10",
-        "HetHanString": "01/09/2025",
+        "HetHanString": "01/09/2027",
         "HetHanTime": "1725148800000"
     }, "BI_MAT", { expiresIn: "5d" })
 }
